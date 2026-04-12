@@ -1,0 +1,21 @@
+# Run by the next command:
+# docker-compose -f postgresql-docker-compose.yml up -d
+
+# При первом запуске Docker скачает образ и автоматически создаст базу docker_shortcut-hibernate_db
+# To stop Postgresql install on host: sudo systemctl stop postgresql
+
+services:
+  postgres-db:
+    image: postgres:16
+    container_name: postgres-shortcut-hibernate
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=docker_shortcut-hibernate_db
+    ports:
+      - "5435:5432" # Снаружи будет 5434, внутри контейнера — 5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

@@ -1,0 +1,56 @@
+# default profile
+server:
+  port: 8082
+  servlet:
+    context-path: /api/v1/
+springdoc:
+  api-docs:
+    path: /openapi # http://localhost:8082/api/v1/openapi
+management:
+  # http://localhost:8082/api/v1/actuator/mappings
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Для разработки, в продакшене лучше ограничить список
+spring:
+  application:
+    name: shortcut-hibernate
+  docker:
+    # Only for development
+    # Если docker образа не существует, Spring Boot автоматически скачает и создаст его при запуске приложения.
+    # Для локальной разработки. Spring Boot будет сам следить за тем, чтобы база данных была «жива»,
+    # Rогда вы нажимаете кнопку Run/Stop, контейнер kafka_postgres будет автоматически запущен, а при остановке приложения — остановлен.
+    # Как это работает.
+    # Когда вы запускаете приложение:
+    # - Spring ищет в корне проекта файлы типа postgresql-docker-compose.yml или compose.yaml.
+    # - Вызывает postgresql-docker-compose.yml.
+    # - Spring автоматически подменяет spring.datasource.url, username и password, считывая их прямо из вашего YAML-файла.
+    #   Вам даже не нужно прописывать их в application.yml вручную!
+    # - При остановке приложения Spring делает docker-compose stop.
+    compose:
+      file: postgresql-docker-compose.yml # Указываем ваш конкретный файл
+      lifecycle-management: start_and_stop # Останавливать контейнер при выключении приложения
+      readiness:
+        tcp:
+          connect-timeout: 10s # Ждать, пока база реально поднимется
+  jpa:
+    hibernate:
+      # Автоматическая генерация/обновление схемы БД по маппингу сущностей.
+      # В проде - spring.jpa.hibernate.ddl-auto: validate
+      ddl-auto: create # Удаляет и создаёт заново при каждом старте
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+  # # Need because you can run app by "java -jar shortcut-hibernate-0.0.1-SNAPSHOT.jar"
+  datasource:
+    url: jdbc:postgresql://localhost:5435/docker_shortcut-hibernate_db
+    driver-class-name: org.postgresql.Driver
+    username: postgres
+    password: postgres
+logging.level:
+  com.gmail.alexei28.shortcuthibernate: debug
+  org.hibernate.SQL: debug
+  org.hibernate.orm.jdbc.bind: trace
