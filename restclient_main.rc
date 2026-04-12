@@ -1,0 +1,14 @@
+# Help: https://github.com/pashky/restclient.el
+# More examples: https://github.com/pashky/restclient.el/blob/master/examples/httpbin
+# C-c C-v: same as C-c C-c, but doesn't switch focus to other window
+# C-c C-u: copy query under the cursor as a curl command
+# C-h e (view-echo-area-messages): print request header and body
+
+# Some generic vars
+:BASE_URL = http://localhost:8082/api/v1
+
+# Spring Boot actuator
+GET :BASE_URL/actuator/health
+
+# Say hello
+GET :BASE_URL/hello
