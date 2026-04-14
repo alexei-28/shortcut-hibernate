@@ -18,9 +18,14 @@ repositories {
 	mavenCentral()
 }
 
+val equalsverifierVersion = "4.3.1"
+val mapstructVersion = "1.6.3"
 val openapiVersion = "2.6.0"
 
 dependencies {
+    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+
+    implementation("org.mapstruct:mapstruct:${mapstructVersion}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$openapiVersion")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -29,10 +34,15 @@ dependencies {
 
     runtimeOnly("org.postgresql:postgresql")
 
+    testImplementation("nl.jqno.equalsverifier:equalsverifier:$equalsverifierVersion")
     testImplementation("org.assertj:assertj-core")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.testcontainers:postgresql")
+    testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("org.testcontainers:testcontainers")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {
