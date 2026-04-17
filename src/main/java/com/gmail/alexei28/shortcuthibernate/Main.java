@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
    Swagger UI: http://localhost:8082/api/v1/swagger-ui/index.html
 */
 @SpringBootApplication
-public class Main {
+public class  Main {
 
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 

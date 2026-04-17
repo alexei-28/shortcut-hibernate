@@ -1,0 +1,85 @@
+# Help: https://github.com/pashky/restclient.el
+# More examples: https://github.com/pashky/restclient.el/blob/master/examples/httpbin
+# C-c C-v: same as C-c C-c, but doesn't switch focus to other window
+# C-c C-u: copy query under the cursor as a curl command
+# C-h e (view-echo-area-messages): print request header and body
+
+# Some generic vars
+:BASE_URL = http://localhost:8082/api/v1
+:uuid := (shell-command-to-string "uuidgen | tr -d '\\n'")
+:current-date := (format-time-string "%Y-%m-%dT%H:%M:%S%z")
+
+# Header
+:REQUEST_HEADER = <<
+Content-Type: application/json
+
+# Spring Boot actuator
+GET :BASE_URL/actuator/health
+
+
+# Create new post without comments
+POST :BASE_URL/post/create
+:REQUEST_HEADER
+
+{
+  "title": "Title#1",
+  "comments": []
+}
+
+
+# Create new post with 2 comments
+POST :BASE_URL/post/create
+:REQUEST_HEADER
+
+{
+  "title": "Title#2",
+  "comments": [
+    {
+      "body": "Comments#1, Post with Title#2"
+    },
+    {
+      "body": "Comments#2, Post with Title#2"
+    }
+  ]
+}
+
+
+# Create new post with 3 comments
+POST :BASE_URL/post/create
+:REQUEST_HEADER
+
+{
+  "title": "Title#3",
+  "comments": [
+    {
+      "body": "Comments#1, Post with Title#3"
+    },
+    {
+      "body": "Comments#2, Post with Title#3"
+    }
+    ,
+    {
+      "body": "Comments#3, Post with Title#3"
+    }
+  ]
+}
+
+# Add comment to post
+POST :BASE_URL/post/1/comments
+:REQUEST_HEADER
+
+{
+  "body": "This comment has been added"
+}
+
+# Get post by id
+GET :BASE_URL/post/2
+
+# Get all posts
+GET :BASE_URL/post
+
+# Delete post and whole it comments
+DELETE :BASE_URL/post/1
+
+# Delete comment by id from post
+DELETE :BASE_URL/post/2/comment/2
