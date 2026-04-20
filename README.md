@@ -5,6 +5,8 @@ Repo: https://github.com/alexei-28/shortcut-hibernate
 
 Mentor platform - Shortcut: https://shortcut.education/
 
+Mentor repo (sql-course): https://github.com/LeksyIT/sql-course/tree/main
+
 ---
 * **Environment**
     * Java 21
